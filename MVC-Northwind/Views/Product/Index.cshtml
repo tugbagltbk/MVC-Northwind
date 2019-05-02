@@ -1,0 +1,123 @@
+﻿
+@{
+    Layout = null;
+}
+
+@*sana model yöntemiyle bi veri gelecek tipi listproduct, veriyi yakala*@
+@using MVC_Northwind.Models
+@*  @model List<Product> *@
+
+
+@* Action tarafından View tarafına Model yöntemi ile veri geliyorsa View tarafında bunu yakalamamız lazım. Bunun için yukarıdaki model satırını yazıyoruz. *@
+@*Model yöntemi ile veri gönderme*@
+@Model  ViewModel
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Ürün Adı</th>
+                <th>Fiyat</th>
+                <th>Stok</th>
+                <th>KategoriID</th>
+                <th>Kategori Adı</th>
+                <th>TedarikçiID</th>
+                <th>Tedarikçi Adı</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!---ViewBag yöntemi ile tek liste gönderme-->
+            @*@foreach (Product prd in Model)
+                {
+                    <tr>
+                        <td>@prd.ProductName</td>
+                        <td>@prd.UnitPrice</td>
+                        <td>@prd.UnitsInStock</td>
+                        <td>@prd.CategoryID</td>
+                        <td>@prd.Category.CategoryName</td>
+                        <td>@prd.SupplierID</td>
+                        <td>@prd.Supplier.CompanyName</td>
+                    </tr>
+                }*@
+            <!---Model yöntemi ile birden çok liste gönderme-->
+            @foreach (Product prd in Model.prodList)
+            {
+            <tr>
+                <td>@prd.ProductName</td>
+                <td>@prd.UnitPrice</td>
+                <td>@prd.UnitsInStock</td>
+                <td>@prd.CategoryID</td>
+                @if (prd.Category == null)
+                {
+                    <td></td>
+                }
+                else
+                {
+                    <td>@prd.Category.CategoryName</td>
+                }
+                @if (prd.Supplier == null)
+                {
+                    <td> </td>
+                }
+                else
+                {
+                    <td>@prd.SupplierID</td>
+                    <td>@prd.Supplier.CompanyName</td>
+
+                }
+
+            </tr>
+            }
+        </tbody>
+    </table>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Kategori Adı</th>
+                <th>Tanımı</th>
+            </tr>
+        </thead>
+        <tbody>
+            @*@foreach (Category cat in ViewBag.categoryList)
+                {
+                    <tr>
+                        <td>@cat.CategoryName</td>
+                        <td>@cat.Description</td>
+                    </tr>
+                }*@
+
+            @foreach (Category cat in Model.catList)
+            {
+                <tr>
+                    <td>@cat.CategoryName</td>
+                    <td>@cat.Description</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Tedarikçi Adı</th>
+                <th>Kontak Adı</th>
+            </tr>
+        </thead>
+        <tbody>
+          
+            @foreach (Supplier sup in Model.supList)
+            {
+                <tr>
+                    <td>@sup.CompanyName</td>
+                    <td>@sup.ContactName</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</body>
+</html>

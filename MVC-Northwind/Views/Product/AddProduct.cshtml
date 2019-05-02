@@ -1,0 +1,63 @@
+﻿
+@{
+    Layout = null;
+}
+@using MVC_Northwind.Models
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>AddProduct</title>
+</head>
+<body>
+    <form action="/Product/AddProduct" method="post">
+        @*ÜrünAdı: <input type="text"name="prdName" />*@
+        ÜrünAdı: <input type="text" name="ProductName" />
+        <br />
+        <br />
+        @*Fiyat: <input type="number" name="prdPrice" />*@
+        Fiyat: <input type="number" name="UnitPrice" />
+
+        <br />
+        <br />
+        @*Stok: <input type="number" name="prdStock" />*@
+        Stok: <input type="number" name="UnitsInStock" />
+
+        <br />
+        <br />
+        Kategori:
+        @*<select name="prdCatID">*@
+        <select name="CategoryID">
+
+            @foreach (Category ctg in ViewBag.catList)
+            {
+                <!--Winformsta bunun için ValueMember ve DisplayMember kulanılıyordu-->
+                <option value="@ctg.CategoryID">@ctg.CategoryName</option>
+            }
+        </select>
+
+        @*select:combobox için*@
+        @*option tagi combbox ın dolmasını sağlar*@
+        <br />
+        <br />
+        Tedarikçi:
+        @*<select name="prdSupID">*@
+        <!--public ActionResult AddProduct(Product prd) yazdığımız için aşağıdaki şekilde-->
+        <select name="SupplierID">
+
+            @foreach (Supplier spl in ViewBag.supList)
+            {
+                <!--Winformsta bunun için ValueMember ve DisplayMember kulanılıyordu-->
+                <option value="@spl.SupplierID">@spl.CompanyName</option>
+            }
+        </select>
+        <br />
+        <br />
+        <a href="/Product/Index">İptal</a>
+        <!--Kaydet butonuna basınca, içinde bulunduğu formu post etmesi lazım. Bunun için öncelikle inputun tipini "button"dan "submit"e çevirmeliyiz. Tipi submit olan butona basılınca içerisine bulunduğu form hangi acton ı belirtmişse o actiona içerisindeki girlen değeleri gönderir(method tipini post seçtiğimiz için post eder) -->
+        <input type="submit" value="Kaydet" />
+    </form> @*butona bastığımız an hangi verileri alacağını bilir form ile*@
+</body>
+</html>
